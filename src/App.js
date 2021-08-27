@@ -9,29 +9,36 @@ function App() {
   const defaultDoi = "10.1111/spc3.12497";
 
   const [doi, setDoi] = useState(defaultDoi);
-  const [articleMetadata, setArticleMetadata] = useState(defaultArticleMetadata);
+  const [articleMetadata, setArticleMetadata] = useState(
+    defaultArticleMetadata
+  );
 
-async function getArticleMetadata() {
-    try {const doiURL = "https://api.crossref.org/works/" + doi;
-    const response = await axios.get(doiURL);
-    const message = response.data.message 
-    setArticleMetadata(message)} catch {
-      setArticleMetadata(defaultArticleMetadata)
+  async function getArticleMetadata() {
+    try {
+      const doiURL = "https://api.crossref.org/works/" + doi;
+      const response = await axios.get(doiURL);
+      const message = response.data.message;
+      setArticleMetadata(message);
+    } catch {
+      setArticleMetadata(defaultArticleMetadata);
     }
   }
 
   return (
     <div className="App">
+      <nav>
+        <a href="https://github.com/nsunami/doi-resolver" rel="noreferrer" target="_blank">
+        GitHub Repo
+        </a>
+      </nav>
+
       <div>
         <input
           type="text"
           name="doi"
           onChange={(e) => setDoi(e.target.value)}
         ></input>
-        <button
-         onClick={getArticleMetadata}>
-         Resolve
-         </button>
+        <button onClick={getArticleMetadata}>Resolve</button>
       </div>
       <div>
         {/* Show the results */} Title:
