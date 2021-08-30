@@ -1,6 +1,6 @@
-import "./App.css";
 import { useState } from "react";
 import axios from "axios";
+import ArticleList from "./ArticleList";
 
 function App() {
   const defaultArticleMetadata = {
@@ -20,8 +20,14 @@ function App() {
       const message = response.data.message;
       setArticleMetadata(message);
     } catch {
-      setArticleMetadata(defaultArticleMetadata);
+      handleArticleNotFound();
     }
+  }
+
+  function handleArticleNotFound() {
+    setArticleMetadata({
+      title: "[ERROR: Article Not Found]",
+    })
   }
 
   return (
@@ -33,19 +39,15 @@ function App() {
       </nav>
 
       <div>
-        <input
+        Enter DOI: <input
           type="text"
           name="doi"
+          value={doi}
           onChange={(e) => setDoi(e.target.value)}
         ></input>
         <button onClick={getArticleMetadata}>Resolve</button>
       </div>
-      <div>
-        {/* Show the results */} Title:
-        <strong>{articleMetadata.title}</strong>
-        <div></div>
-      </div>
-      <div>For Testing: 10.1037/0003-066X.59.1.29/</div>
+      <ArticleList articleMetadata={articleMetadata}/>
     </div>
   );
 }
