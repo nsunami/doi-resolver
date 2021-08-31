@@ -6,11 +6,7 @@ export default function Article(props) {
   const { handleArticleDelete } = useContext(ArticleContext)
 
   const { id, metadata: articleMetadata } = props;
-  console.log(articleMetadata.author);
   if (!articleMetadata.author) return null;
-
-
-
   return (
     <div className="m-2 p-2 bg-yellow-50 rounded hover:bg-yellow-100">
       <div>

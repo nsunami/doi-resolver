@@ -28,7 +28,7 @@ const ArticleContextValue = {
         id: uuidv4(),
         metadata: newArticleMetadata
       }
-      setArticles([...articles, newArticle])
+      setArticles([newArticle, ...articles])
       } catch {
       handleArticleNotFound();
     }
@@ -41,8 +41,6 @@ const ArticleContextValue = {
   function handleArticleDelete(id) {
     setArticles(articles.filter(article => article.id !== id))
   }
-
-  console.log(doi)
 
   return (
     <ArticleContext.Provider value={ArticleContextValue}>
