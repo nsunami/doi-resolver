@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
-import { FaBook, FaUser } from "react-icons/fa";
+import { FaBook, FaUser, FaHeart } from "react-icons/fa";
 import { ArticleContext } from "./App";
 
 export default function Article(props) {
   const { handleArticleDelete } = useContext(ArticleContext)
+  const { 
+    id,
+    metadata: articleMetadata,
+    plauditData
+    } = props;
 
-  const { id, metadata: articleMetadata } = props;
+  const plauditCount = plauditData?.events?.length;
+
   if (!articleMetadata.author) return null;
   return (
     <div className="m-2 p-2 bg-yellow-50 rounded hover:bg-yellow-100">
@@ -36,7 +42,11 @@ export default function Article(props) {
           <FaBook className="inline mr-2" />
           {articleMetadata.DOI}
         </a>
+        <div className="float-right float-bottom mr-2">
+        Plaudit <FaHeart className="inline mx-1 mb-1" />{plauditCount}
       </div>
+      </div>
+
     </div>
   );
 }

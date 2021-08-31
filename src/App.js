@@ -24,14 +24,27 @@ const ArticleContextValue = {
       const doiURL = "https://api.crossref.org/works/" + doi;
       const response = await axios.get(doiURL);
       const newArticleMetadata = response.data.message;
+      const plauditData = await getPlauditMetadata();     //   Get plaudit data and inject to new article 
       const newArticle = {
         id: uuidv4(),
-        metadata: newArticleMetadata
+        metadata: newArticleMetadata,
+        plauditData
       }
+
       setArticles([newArticle, ...articles])
       } catch {
       handleArticleNotFound();
     }
+  }
+
+  async function getPlauditMetadata() {
+      try {
+          const crossrefEventURL = `https://api.eventdata.crossref.org/v1/events?obj-id=${doi}&source=plaudit`
+          const crossrefEventResponse = await axios.get(crossrefEventURL);
+          return crossrefEventResponse.data.message
+      } catch {
+          handleArticleNotFound();
+      }
   }
 
   function handleArticleNotFound() {
@@ -42,12 +55,14 @@ const ArticleContextValue = {
     setArticles(articles.filter(article => article.id !== id))
   }
 
+  console.log(articles)
+
   return (
     <ArticleContext.Provider value={ArticleContextValue}>
       <header className="bg-gray-50 p-6">
         <nav className="">
           <ul className="">
-            <li className="mr-6 inline hover:underline"><a href="/">DOI Resolver</a></li>
+            <li className="mr-6 inline hover:underline"><a href="/">{document.title}</a></li>
             <li className="mr-6 inline hover:underline">
               <a
                 href="https://github.com/nsunami/doi-resolver"
@@ -79,6 +94,15 @@ const ArticleContextValue = {
         </div>
         <ArticleList articles={articles} />
       </div>
+      <div className="bg-gray-50 p-6">
+      Looking for DOIs? Try these!
+      <ul className="list-disc list-inside">
+          <li>10.3390/publications7020040</li>
+          <li>10.1371/journal.pbio.2006812</li>
+          <li>10.1111/spc3.12497</li>
+      </ul>
+      </div>
+      <footer></footer>
     </ArticleContext.Provider>
   );
 }
