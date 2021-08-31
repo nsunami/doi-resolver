@@ -3,12 +3,15 @@ import Article from "./Article";
 
 
 export default function ArticleList(props) {
-  const { articleMetadata } = props;
-  if (!articleMetadata.author) return null;
-  console.log(articleMetadata);
+  const { articles } = props;
+  if (!articles) return null
+  console.log(articles);
   return (
     <div>
-    <Article articleMetadata={articleMetadata}/>
+    {articles?.map(article => {
+      return(<Article key={article.id} {...article} />
+)
+    })}
     </div>
   );
 }
