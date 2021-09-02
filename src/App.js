@@ -71,6 +71,7 @@ const ArticleContextValue = {
 
   return (
     <ArticleContext.Provider value={ArticleContextValue}>
+    <div className="flex flex-col min-h-screen">
       <header className="bg-gray-50 p-6">
         <nav className="">
           <ul className="">
@@ -87,7 +88,7 @@ const ArticleContextValue = {
           </ul>
         </nav>
       </header>
-      <div className="m-6">
+      <main className="m-6 flex-grow">
         <div className="m-1 p-6 bg-green-50 rounded-md">
           <input
             placeholder="Enter DOI"
@@ -105,8 +106,8 @@ const ArticleContextValue = {
           </button>
         </div>
         <ArticleList articles={articles} />
-      </div>
-      <div className="bg-gray-50 p-6">
+      </main>
+      <footer>      <div className="bg-gray-50 p-6">
       Looking for DOIs? Try these!
       <ul className="list-disc list-inside">
           <li>10.3390/publications7020040</li>
@@ -114,7 +115,8 @@ const ArticleContextValue = {
           <li>10.1111/spc3.12497</li>
       </ul>
       </div>
-      <footer></footer>
+</footer>
+    </div>
     </ArticleContext.Provider>
   );
 }
