@@ -7,10 +7,10 @@ export default function Article(props) {
   const { 
     id,
     metadata: articleMetadata,
-    plauditData
+    plaudit_count
     } = props;
 
-  const plauditCount = plauditData?.events?.length;
+  const plauditCount = plaudit_count
 
   if (!articleMetadata.author) return null;
   return (
@@ -21,7 +21,7 @@ export default function Article(props) {
       </div>
         <button
           onClick={() => handleArticleDelete(id)}
-          className="inline text-white bg-red-200 hover:bg-red-500 px-2 float-right rounded-full"
+          className="inline text-white bg-red-200 hover:bg-red-500 px-2 float-right rounded-full h-6 w-6 flex items-center justify-center"
         >
           &#215;
         </button>

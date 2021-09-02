@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid'
 import ArticleList from "./ArticleList";
 import { FaGithub } from "react-icons/fa";
 
 export const ArticleContext = React.createContext()
-// const LOCAL_STORAGE_KEY = 'doiResolver' // useEffect to update the local stroage
+const LOCAL_STORAGE_KEY = 'doiResolver' // useEffect to update the local stroage
 
 function App() {
   const defaultDoi = "10.3390/publications7020040";
@@ -13,8 +13,18 @@ function App() {
   const [doi, setDoi] = useState(defaultDoi);
   const [articles, setArticles] = useState(defaultArticles);
 
-//   Context Functions to be passed to children
+//   Initialize Local Storage
+  useEffect(() => {
+    const articleJSON = localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (articleJSON != null) setArticles(JSON.parse(articleJSON))
+    // Only do this once = empty arrayy 
+  }, [])
+  // saving the data to local storage when articles changes (setItem)
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(articles))
+  }, [articles])
 
+//   Context Functions to be passed to children
 const ArticleContextValue = {
     handleArticleDelete
 }
@@ -25,10 +35,12 @@ const ArticleContextValue = {
       const response = await axios.get(doiURL);
       const newArticleMetadata = response.data.message;
       const plauditData = await getPlauditMetadata();     //   Get plaudit data and inject to new article 
+    //   const plauditData = null
+      const plauditNumEvents = plauditData?.events?.length
       const newArticle = {
         id: uuidv4(),
         metadata: newArticleMetadata,
-        plauditData
+        plaudit_count: plauditNumEvents
       }
 
       setArticles([newArticle, ...articles])
