@@ -107,7 +107,7 @@ const ArticleContextValue = {
         </div>
         <ArticleList articles={articles} />
       </main>
-      <footer>      <div className="bg-gray-50 p-6">
+      <footer>      <div className="m-6 flex-grow">
       Looking for DOIs? Try these!
       <ul className="list-disc list-inside">
           <li>10.3390/publications7020040</li>
